@@ -1,10 +1,11 @@
-Laravel + Vite CMS for upload data and one rest endpoint
+Laravel 9 + Vite CMS for upload data and one rest endpoint
 
 1. Run project with:
     php artisan serve 
     npm run dev
 2. Run database migration to generate pets and owner as well as users
     php artisan migrate:fresh --seed
+3. For Admin role test, the field in table users -> model should be changed from 'cumstomer' to 'admin'
 
    About project
    - Without loging on welcome page are listed pets 
