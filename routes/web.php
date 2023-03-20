@@ -24,7 +24,9 @@ Route::get('/', function () {
             'pets.id as id',
             'pets.old as old',
             'pets.species as species',
-            'pets.name as name')
+            'pets.name as name',
+            'pets.image as image'
+        )
         ->paginate(5);
         return  view('welcome', ['pets'=> $pets]);
 });

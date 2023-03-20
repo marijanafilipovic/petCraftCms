@@ -83,6 +83,7 @@ class CustomerController extends Controller
                     'pets.id as id',
                     'pets.species as species',
                     'pets.old as old',
+                    'pets.image as image',
                 )
                 ->paginate(5);
         } else {
@@ -93,7 +94,7 @@ class CustomerController extends Controller
                     'pets.id as id',
                     'pets.species as species',
                     'pets.old as old',
-
+                    'pets.image as image',
                 )
                 ->where('pets.user_id', Auth::id())
                 ->paginate(5);

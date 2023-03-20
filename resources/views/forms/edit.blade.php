@@ -21,6 +21,7 @@
                 <label class="col-sm-2 col-label-form">Pet's Image</label>
                 <div class="col-sm-10">
                     <input type="file" name="pet_image" />
+                    <img src="{{ asset('images/' . $pet->image) }}" width="175" />
                 </div>
             </div>
             <div class="text-center">

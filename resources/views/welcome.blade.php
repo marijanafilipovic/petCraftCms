@@ -10,6 +10,7 @@
             <th scope="col">Owner name</th>
             <th scope="col">Species</th>
             <th scope="col">Old</th>
+            <th scope="col">Image</th>
         </tr>
         </thead>
         <tbody>
@@ -20,6 +21,7 @@
                 <td>{{ $data->owner }}</td>
                 <td>{{ $data->species }}</td>
                 <td>{{ $data->old }}</td>
+                <td><img src="{{ asset('images/' . $data->image) }}" width="75" /></td>
             </tr>
         @endforeach
         </tbody>

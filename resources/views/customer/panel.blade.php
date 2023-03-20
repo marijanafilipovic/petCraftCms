@@ -26,7 +26,7 @@
                     <td>{{ $data->name }}</td>
                     <td>{{ $data->species }}</td>
                     <td>{{ $data->old }}</td>
-                    <td>{{--{{ $data->image }}--}}</td>
+                    <td><img src="{{ asset('images/' . $data->image) }}" width="75" /></td>
                     @if(Auth::user()->model == 'admin')
                         <td>{{ $data->owner }}</td>
                     @endif
