@@ -12,3 +12,7 @@ Laravel + Vite CMS for upload data and one rest endpoint
    - Can see list with opetion to edit or add new record.
    - Admins can see all pats and delete record
 
+    Restendpoint:
+    - For all pets: http://localhost:8000/api/v1/pets
+    - Single specific by ID : http://localhost:8000/api/v1/pets/1
+
