@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pet;
 use App\Http\Requests\StorePetRequest;
 use App\Http\Requests\UpdatePetRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -28,31 +29,9 @@ class PetController extends Controller
         return view('forms.pet');
     }
 
-    /**
-     * @param StorePetRequest $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(StorePetRequest $request)
+    public function store(StorePetRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required',
-            'old' => 'string',
-            'species' => 'string',
-            'pet_image' => 'image|mimes:jpg,png, jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000'
-        ]);
-        $file_name = time() . '.' . request()->pet_image->getClientOriginalExtension();
-        if ($file_name !== '')
-            request()->pet_image->move(public_path('images'), $file_name);
-
-        $pet = new Pet;
-
-        $pet->user_id = Auth::id();
-        $pet->name = $request->name;
-        $pet->species = $request->species;
-        $pet->old = $request->old;
-        $pet->image = $file_name;
-
-        $pet->save();
+        Pet::create($request->validated());
 
         return redirect()->route('home')->with('success', 'Pet Added successfully.');
 
