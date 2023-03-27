@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCustomerRequest extends FormRequest
+class DeletePetRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,14 +15,22 @@ class StoreCustomerRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return string[]
      */
     public function rules(): array
     {
         return [
-            //
+            'petId' => 'required|int'
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function messages(): array
+    {
+        return [
+            'id.int' => 'Something went wrong'
         ];
     }
 }
