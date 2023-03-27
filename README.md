@@ -17,18 +17,13 @@ Laravel 9 + Vite CMS for upload data and one rest endpoint
     - For all pets: http://localhost:8000/api/v1/pets
     - Single specific by ID : http://localhost:8000/api/v1/pets/1
 
-======================================================================
-AFTER REVIEW
-=====================================================================
-
 SPEC. 
     To EventServiceProvider added:
         PetObserver used to delete images from public storage on update or delete
 
 WEB ROUTES
     Used as suggested
-HANDLING IMAGE 
-    Should be as relation for Pet Model
 
-
+Without of use php artisan migrate:fresh --seed
+    first registrated user will be admin, all after will be simple user
     
