@@ -24,4 +24,6 @@ SPEC.
 WEB ROUTES
     Used as suggested
 
+Without of use php artisan migrate:fresh --seed
+    first registrated user will be admin, all after will be simple user
     

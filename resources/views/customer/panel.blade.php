@@ -31,15 +31,15 @@
                         <td><img src="{{ asset('images/' . $data->image) }}" width="75"/></td>
                         <td>{{ $data->user->name }}</td>
                         <td>
-                            <form action="{{ route('pets.destroy', $data->id) }}"  method="post" onsubmit="return confirm('Are you sure?');">
+                            <form action="{{ route('pets.destroy', $data->id) }}"  method="post"
+                                  onsubmit="return confirm('Are you sure?');">
                                 @csrf
                                 @method('DELETE')
                                 <input type="hidden" name="petId" value="{{$data->id}}">
                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                             </form>
                         </td>
-                        <td>
-                            <a class="btn btn-sm btn-warning" href="{{ route('pets.edit', $data->id) }}">EDIT</a></td>
+                        <td><a class="btn btn-sm btn-warning" href="{{ route('pets.edit', $data->id) }}">EDIT</a></td>
                     </tr>
                 @endforeach
                 </tbody>

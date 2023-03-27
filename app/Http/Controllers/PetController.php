@@ -38,14 +38,15 @@ class PetController extends Controller
     public function store(StorePetRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $image_name = uniqid() . '.' . $data['image']->getClientOriginalExtension();
-        $data['image']->move(public_path('images'), $image_name);
-        $data['image'] = $image_name;
+        if (isset($data['image'])) {
+            $image_name = uniqid() . '.' . $data['image']->getClientOriginalExtension();
+            $data['image']->move(public_path('images'), $image_name);
+            $data['image'] = $image_name;
+        } else {
+            $data['image'] = "0";
+        }
 
         Pet::create($data);
-
-        //Pet::create($request->validated());
-        //if not like this then image should be added by another form as with the realtion on Pet Model
 
         return redirect()->route('customer-panel')->with('success', 'Pet Added successfully.');
 

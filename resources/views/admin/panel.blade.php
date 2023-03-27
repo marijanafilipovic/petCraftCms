@@ -12,8 +12,10 @@
                     <th scope="col">Species</th>
                     <th scope="col">Old</th>
                     <th>Image</th>
+                    <th>Owner name</th>
                     <th>Edit</th>
                     <th>Delete</th>
+                    <th>Unpublish/Publish</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -24,8 +26,17 @@
                         <td>{{ $data->species }}</td>
                         <td>{{ $data->old }}</td>
                         <td><img src="{{ asset('images/' . $data->image) }}" width="75"/></td>
-                        <td><a class="btn btn-warning" href="{{ route('pets.update', $data->id) }}">EDIT</a></td>
-                        <td><a class="btn btn-warning" href="{{ route('pets.destroy', $data->id) }}">DELETE</a></td>
+                        <td>{{$data->user->name}}</td>
+                        <td><a class="btn btn-warning btn-sm" href="{{ route('pets.edit', $data->id) }}">Edit</a></td>
+                        <td>
+                            <form action="{{ route('pets.destroy', $data->id) }}" method="post"
+                                  onsubmit="return confirm('Are you sure?');">
+                                @csrf
+                                @method('DELETE')
+                                <input type="hidden" name="petId" value="{{$data->id}}">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
