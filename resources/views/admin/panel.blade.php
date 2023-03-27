@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="container-md"><h1>ADMIN PANEL</h1></div>
     @if(count($pets) > 0)
         <div class="container mt-5">
             <table class="table table-bordered mb-5">
@@ -22,9 +23,9 @@
                         <td>{{ $data->name }}</td>
                         <td>{{ $data->species }}</td>
                         <td>{{ $data->old }}</td>
-                        <td>{{--{{ $data->image }}--}}</td>
-                        <td><a class="btn btn-warning" href="{{ route('pet-edit', $data->id) }}">EDIT</a></td>
-                        <td><a class="btn btn-warning" href="{{ route('pet-destroy', $data->id) }}">DELETE</a></td>
+                        <td><img src="{{ asset('images/' . $data->image) }}" width="75"/></td>
+                        <td><a class="btn btn-warning" href="{{ route('pets.update', $data->id) }}">EDIT</a></td>
+                        <td><a class="btn btn-warning" href="{{ route('pets.destroy', $data->id) }}">DELETE</a></td>
                     </tr>
                 @endforeach
                 </tbody>

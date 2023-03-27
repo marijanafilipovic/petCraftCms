@@ -2,45 +2,60 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\v1\PetResource;
 use App\Models\Pet;
 use App\Http\Requests\StorePetRequest;
 use App\Http\Requests\UpdatePetRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Resources\Json\ResourceCollection;
+use phpDocumentor\Reflection\Types\Collection;
 
 class PetController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @return ResourceCollection
      */
-    public function index()
+    public function index(): ResourceCollection
     {
-        //return list of pets all for admin and belongs to custommer
+        return PetResource::collection(Pet::all()->chunk(5));
 
     }
 
     /**
-     * Show the form for creating a new resource.
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
      */
-    public function create($id = null)
+    public function create()
     {
         return view('forms.pet');
     }
 
+    /**
+     * @param StorePetRequest $request
+     * @return RedirectResponse
+     */
     public function store(StorePetRequest $request): RedirectResponse
     {
-        Pet::create($request->validated());
+        $data = $request->validated();
+        $image_name = uniqid() . '.' . $data['image']->getClientOriginalExtension();
+        $data['image']->move(public_path('images'), $image_name);
+        $data['image'] = $image_name;
 
-        return redirect()->route('home')->with('success', 'Pet Added successfully.');
+        Pet::create($data);
+
+        //Pet::create($request->validated());
+        //if not like this then image should be added by another form as with the realtion on Pet Model
+
+        return redirect()->route('customer-panel')->with('success', 'Pet Added successfully.');
 
     }
 
     /**
-     * Display the specified resource.
+     * @param Pet $pet
+     * @return void
      */
-    public function show(Pet $pet)
+    public function show(Pet $pet): void
     {
         //edit existing pets
 
@@ -50,11 +65,9 @@ class PetController extends Controller
      * @param $petID
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
      */
-    public function edit($petID)
+    public function edit(Pet $pet)
     {
-        $pet = DB::table('pets')
-            ->find($petID);
-        return view('forms.edit', ['pet' => $pet]);
+        return view('forms.edit', compact('pet'));
     }
 
     /**
@@ -64,37 +77,31 @@ class PetController extends Controller
      */
     public function update(UpdatePetRequest $request, Pet $pet)
     {
-        if ($request->pet_image) {
+        $data = $request->validated();
 
-            $file_name = time() . '.' . request()->pet_image->getClientOriginalExtension();
-            request()->pet_image->move(public_path('images'), $file_name);
-            $image_name = $file_name;
-
+        if ($request->image !== '0') {
+            $image_name = uniqid() . '.' . $data['image']->getClientOriginalExtension();
+            $data['image']->move(public_path('images'), $image_name);
+            $data['image'] = $image_name;
         } else {
-            $image_name = "0";
+            $data['image'] = 0;
         }
 
-        DB::table('pets')
-            ->where('id', $request->pet_id)
-            ->update([
-                'name' => $request->name,
-                'old' => $request->old,
-                'species' => $request->species,
-                'image' => $image_name
-            ]);
+        $pet->update($data);
 
-        return redirect()->route('home')->with('success', 'Pet successfully changed.');
+        return redirect()->route('customer-panel')->with('success', 'Pet successfully changed.');
 
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @param Request $request
+     * @param Pet $pet
+     * @return RedirectResponse
      */
-    public function delete(int $petID)
+    public function destroy(Request $request, Pet $pet): RedirectResponse
     {
-        DB::table('pets')->where('id', $petID)->delete();
+        $pet->destroy($request->petId);
 
-        return redirect()->route('home')->with('success', 'Pet successfully deleted.');
-
+        return redirect()->route('customer-panel')->with('success', 'Pet successfully deleted.');
     }
 }
