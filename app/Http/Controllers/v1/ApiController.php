@@ -11,9 +11,15 @@ class ApiController extends Controller
     /**
      * @return mixed[]
      */
-    public function index() {
+    public function index()
+    {
         return Pet::all()->jsonSerialize();
     }
+
+    /**
+     * @param Pet $pet
+     * @return PetResource
+     */
     public function show(Pet $pet) {
         return new PetResource($pet);
     }

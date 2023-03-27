@@ -2,26 +2,27 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\Access\Authorizable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
+implements Authorizable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, \Illuminate\Foundation\Auth\Access\Authorizable;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [
+    public $fillable = [
         'name',
         'email',
         'password',
-        'model',
+        'typeRole',
         'type',
     ];
 
@@ -44,7 +45,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function pet() {
-        return$this->hasMany(Pet::class);
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function pet()
+    {
+       // return $this->hasMany(Pet::class, 'id', 'user_id');
+        return $this->hasMany(Pet::class);
     }
 }

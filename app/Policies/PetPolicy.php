@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Pet;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class PetPolicy
 {
@@ -37,15 +36,15 @@ class PetPolicy
      */
     public function update(User $user, Pet $pet): bool
     {
-        //
+        return true;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Pet $pet): bool
+    public function destroy(User $user, Pet $pet): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +52,7 @@ class PetPolicy
      */
     public function restore(User $user, Pet $pet): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -61,6 +60,6 @@ class PetPolicy
      */
     public function forceDelete(User $user, Pet $pet): bool
     {
-        //
+        return true;
     }
 }

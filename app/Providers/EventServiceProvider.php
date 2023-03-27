@@ -2,34 +2,37 @@
 
 namespace App\Providers;
 
+use App\Models\Pet;
+use App\Observers\PetObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
     /**
      * The event to listener mappings for the application.
-     *
-     * @var array<class-string, array<int, class-string>>
+     * @property array<class-string, array<int, class-string>> $observers
      */
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
     ];
+    protected $observers = [
+        Pet::class => [PetObserver::class],
+    ];
 
     /**
-     * Register any events for your application.
+     * @return void
      */
     public function boot(): void
     {
-        //
+        Pet::observe(PetObserver::class);
     }
 
     /**
-     * Determine if events and listeners should be automatically discovered.
+     * @return bool
      */
     public function shouldDiscoverEvents(): bool
     {
